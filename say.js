@@ -12,7 +12,10 @@ var rl = readline.createInterface({
 
 rl.on('line', function(text){
 	translate(text, {to: 'fa', from: 'de'}).then(farsi => console.log("\x1b[36m%s\x1b[0m", farsi.text));
-	translate(text, {to: 'en', from: 'de'}).then(eng => console.log("\x1b[36m%s\x1b[0m", eng.text));
+	translate(text, {to: 'en', from: 'de'}).then(eng => {
+        console.log("\x1b[36m%s\x1b[0m", eng.text);
+        eng.from.text.value && console.log("\x1b[36m%s\x1b[0m", eng.from.text.value);
+    });
 
     tts.synthesize({ text, voice: 'de', slow: false }).then(buffer => {
 		fs.writeFileSync('/tmp/voice.mp3', buffer);
