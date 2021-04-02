@@ -10,11 +10,12 @@ var rl = readline.createInterface({
       terminal: false
 });
 
-rl.on('line', function(text){
+function online(text) {
 	translate(text, {to: 'en', from: 'de'}).then(eng => {
-        eng.from.text.value && console.log("\x1b[36m%s\x1b[0m", eng.from.text.value);
-        text = eng.from.text.value || text;
-
+        if(eng.from.text.value) {
+            console.log("\x1b[36m%s\x1b[0m", eng.from.text.value);
+            return online(eng.from.text.value.replace('[', '').replace(']', ''));
+        }
         console.log("\x1b[36m%s\x1b[0m", eng.text);
 
         translate(text, {to: 'fa', from: 'de'}).then(farsi => console.log("\x1b[36m%s\x1b[0m", farsi.text));
@@ -23,4 +24,6 @@ rl.on('line', function(text){
             shell.exec('mpg123 /tmp/voice.mp3 > /dev/null 2>&1');
         });
     });
-});
+}
+
+rl.on('line', online);
