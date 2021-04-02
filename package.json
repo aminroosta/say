@@ -1,0 +1,11 @@
+{
+  "name": "say",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@vitalets/google-translate-api": "^5.1.0",
+    "google-translate-tts": "^0.4.0-dev",
+    "shelljs": "^0.8.4"
+  }
+}
