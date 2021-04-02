@@ -3,23 +3,19 @@ const fs = require('fs');
 const tts = require('google-translate-tts');
 const translate = require('@vitalets/google-translate-api');
 const shell = require('shelljs');
+var readline = require('readline');
+var rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+      terminal: false
+});
 
-const text = process.argv.slice(2).join(' ');
-
-// function run() {
-	console.log(text);
-	translate(text, {to: 'fa', from: 'de'}).then(farsi => console.log(farsi.text));
-	translate(text, {to: 'en', from: 'de'}).then(eng => console.log(eng.text));
+rl.on('line', function(text){
+	translate(text, {to: 'fa', from: 'de'}).then(farsi => console.log("\x1b[36m%s\x1b[0m", farsi.text));
+	translate(text, {to: 'en', from: 'de'}).then(eng => console.log("\x1b[36m%s\x1b[0m", eng.text));
 
     tts.synthesize({ text, voice: 'de', slow: false }).then(buffer => {
 		fs.writeFileSync('/tmp/voice.mp3', buffer);
 		shell.exec('mpg123 /tmp/voice.mp3 > /dev/null 2>&1');
 	});
-	// const farsi = await translate(text, {to: 'fa', from: 'de'})
-	// console.log(farsi.text);
-	// const engl = await translate(text, {to: 'en', from: 'de'})
-	// console.log(engl.text);
-    // const buffer = await tts.synthesize({ text, voice: 'de', slow: false });
-// }
-
-// run();
+});
