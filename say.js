@@ -22,6 +22,7 @@ function online(text) {
         tts.synthesize({ text, voice: 'de', slow: false }).then(buffer => {
             fs.writeFileSync('/tmp/voice.mp3', buffer);
             shell.exec('mpg123 /tmp/voice.mp3 > /dev/null 2>&1');
+            shell.exec('afplay /tmp/voice.mp3 > /dev/null 2>&1');
         });
     });
 }
